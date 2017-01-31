@@ -11,11 +11,11 @@ Pull data from Dump1090 and Modesmixer2, by REST API & JSON
 
 Thanks for project
 
-Modesmixer2:  http://xdeco.org/?page_id=48
+Modesmixer2:　http://xdeco.org/?page_id=48
 
-Dump1090:     https://github.com/MalcolmRobb/dump1090
+Dump1090:　　　https://github.com/MalcolmRobb/dump1090
 
-              http://www.satsignal.eu/raspberry-pi/dump1090.html
+　　　　　　　　http://www.satsignal.eu/raspberry-pi/dump1090.html
 
 ## Simulation flights
 
@@ -25,7 +25,5 @@ Some simulators are also compatible if they support FSUIPC (3 or 4) or SimConnec
 
 
 ### MaoFlightMap, your own flight map!
-
-http://www.maojianwei.win/
-
-MaoJianwei2020@gmail.com
+Contact:　http://www.maojianwei.win/
+　　　　　 MaoJianwei2020@gmail.com
