@@ -23,6 +23,8 @@ Some simulators are also compatible if they support FSUIPC (3 or 4) or SimConnec
 
 ## MaoFlightMap, your own flight map!
 
+Dependency:　Qt 5.8.0 32bit
+
 Contact:　http://www.maojianwei.win/
 
 　　　　　MaoJianwei2020@gmail.com
