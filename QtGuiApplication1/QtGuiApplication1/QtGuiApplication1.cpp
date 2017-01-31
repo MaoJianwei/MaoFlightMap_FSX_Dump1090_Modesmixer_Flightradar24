@@ -36,7 +36,7 @@ void QtGuiApplication1::killConnect()
 void QtGuiApplication1::getCommanderData()
 {
 	HRESULT hr = SimConnect_RequestDataOnSimObjectType(
-		hSimConnect, CommanderFlightData, CommanderFlightData, 0, SIMCONNECT_SIMOBJECT_TYPE_USER);
+		hSimConnect, CommanderFlightDataReq, CommanderFlightData, 0, SIMCONNECT_SIMOBJECT_TYPE_USER);
 }
 void QtGuiApplication1::createOneAI()
 {

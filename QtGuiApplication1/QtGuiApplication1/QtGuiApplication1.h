@@ -33,5 +33,5 @@ static enum Mao_DATA_DEFINE_ID {
 };
 
 static enum Mao_DATA_REQUEST_ID {
-	CommanderFlightData,
+	CommanderFlightDataReq,
 };
