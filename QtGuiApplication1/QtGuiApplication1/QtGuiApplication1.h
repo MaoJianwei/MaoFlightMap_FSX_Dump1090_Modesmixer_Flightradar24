@@ -13,9 +13,9 @@ class QtGuiApplication1 : public QMainWindow
 public:
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
 
-private:
-	Ui::QtGuiApplication1Class ui;
 
+	Ui::QtGuiApplication1Class ui;
+private:
 	HANDLE  hSimConnect;
 
 private slots:
@@ -25,7 +25,14 @@ private slots:
 	void createOneAI();
 	void setAiData();
 	void deleteOneAI();
+
+private:
+	bool initSimConnect();
+	//void CALLBACK QtGuiApplication1::handleSimConnectData(SIMCONNECT_RECV* pData, DWORD cbData, void *pContext);
 };
+
+void CALLBACK handleSimConnectData(SIMCONNECT_RECV* pData, DWORD cbData, void *pContext);
+
 
 static enum Mao_DATA_DEFINE_ID {
 	CommanderFlightData,
@@ -34,4 +41,15 @@ static enum Mao_DATA_DEFINE_ID {
 
 static enum Mao_DATA_REQUEST_ID {
 	CommanderFlightDataReq,
+};
+
+struct CommanderFlightDataStruct
+{
+	double  planeAlt;
+	double  planeLat;
+	double  planeLon;
+
+	double  gpsAlt;
+	double  gpsLat;
+	double  gpsLon;
 };
