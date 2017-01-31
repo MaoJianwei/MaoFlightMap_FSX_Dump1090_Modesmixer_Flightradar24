@@ -3,11 +3,9 @@
 #### Show flights in map (Online or Offline), show flights in FSX as AI aircrafts.
 #### Combine data of real world flights above your head, and simulation flights in which you play a role of pilot.
 
-------------------------------------------------------------
-
 ## Real world flights
 
-Pull data from Dump1090 and Modesmixer2, by REST API & JSON
+Pull data from Dump1090 and Modesmixer2, by REST API and JSON.
 
 Modesmixer2:　http://xdeco.org/?page_id=48
 
