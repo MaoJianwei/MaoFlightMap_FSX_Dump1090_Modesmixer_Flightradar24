@@ -1,16 +1,20 @@
 # MaoFlightMap
-Flight Map combines data of FSX, Dump1090 and Modesmixer2.
 
-### Show flights in map (Online or Offline), show flights in FSX as AI aircrafts.
-### Combine data of real world flights above your head, and simulation flights in which you play a role of pilot.
+#### Show flights in map (Online or Offline), show flights in FSX as AI aircrafts.
+#### Combine data of real world flights above your head, and simulation flights in which you play a role of pilot.
+
+------------------------------------------------------------
 
 ## Real world flights
 
 Pull data from Dump1090 and Modesmixer2, by REST API & JSON
 
 Thanks for project
+
 Modesmixer2:  http://xdeco.org/?page_id=48
+
 Dump1090:     https://github.com/MalcolmRobb/dump1090
+
               http://www.satsignal.eu/raspberry-pi/dump1090.html
 
 ## Simulation flights
