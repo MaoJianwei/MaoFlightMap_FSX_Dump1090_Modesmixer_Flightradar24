@@ -15,7 +15,7 @@ Dump1090:　　https://github.com/MalcolmRobb/dump1090
 
 　　　　　　　http://www.satsignal.eu/raspberry-pi/dump1090.html
        
-Thanks for two projects.
+Thanks for that two projects.
 
 ## Simulation flights
 
@@ -23,8 +23,8 @@ Pull data from Microsoft Flight Simulator X (FSX), by FSUIPC and SimConnect inte
 
 Some simulators are also compatible if they support FSUIPC (3 or 4) or SimConnect. Such as Prepar3D, FS2004, X-Plane, etc.
 
-### MaoFlightMap, your own flight map!
+## MaoFlightMap, your own flight map!
 
 Contact:　http://www.maojianwei.win/
 
-　　　　　 MaoJianwei2020@gmail.com
+　　　　 MaoJianwei2020@gmail.com
