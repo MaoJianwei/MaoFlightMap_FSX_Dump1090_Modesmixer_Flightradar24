@@ -25,4 +25,4 @@ Some simulators are also compatible if they support FSUIPC (3 or 4) or SimConnec
 
 Contact:　http://www.maojianwei.win/
 
-　　　　 MaoJianwei2020@gmail.com
+　　　　　MaoJianwei2020@gmail.com
