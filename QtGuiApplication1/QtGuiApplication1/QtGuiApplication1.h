@@ -15,7 +15,6 @@ public:
 
 
 	Ui::QtGuiApplication1Class ui;
-private:
 	HANDLE  hSimConnect;
 
 private slots:
@@ -28,18 +27,23 @@ private slots:
 
 private:
 	bool initSimConnect();
+	void handleSimConnectData(HANDLE hSimConnect);
+private:
+	SIMCONNECT_RECV* _receiveSimConnectData(HANDLE hSimConnect);
+	void _handleSimConnectData(SIMCONNECT_RECV* pData);
 	//void CALLBACK QtGuiApplication1::handleSimConnectData(SIMCONNECT_RECV* pData, DWORD cbData, void *pContext);
 };
 
-void CALLBACK handleSimConnectData(SIMCONNECT_RECV* pData, DWORD cbData, void *pContext);
 
 
-static enum Mao_DATA_DEFINE_ID {
+enum Mao_DATA_DEFINE_ID {
 	CommanderFlightData,
 	AiFlightData
 };
 
-static enum Mao_DATA_REQUEST_ID {
+enum Mao_DATA_REQUEST_ID {
+	CreateAiAircraftReq,
+	RemoveAiAircraftReq,
 	CommanderFlightDataReq,
 };
 
