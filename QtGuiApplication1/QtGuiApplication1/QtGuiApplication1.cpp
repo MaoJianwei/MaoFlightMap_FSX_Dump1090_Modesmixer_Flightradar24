@@ -48,16 +48,19 @@ void QtGuiApplication1::createOneAI()
 	SIMCONNECT_DATA_INITPOSITION initPos;
 	initPos.Altitude = 100.7014;
 	initPos.Latitude = 19.9347;
-	initPos.Longitude = 110.4428;
+	initPos.Longitude = 110.4438;
 	initPos.Pitch = 0; // ¸©Ñö
-	initPos.Bank = 45; // ²àÇã
+	initPos.Bank = 0; // ²àÇã
 	initPos.Heading = 90.0;
 	initPos.OnGround = 0;
 	initPos.Airspeed = 20;
 
 	HRESULT hr = SimConnect_AICreateNonATCAircraft(hSimConnect, "Boeing 737-800 Paint1", "M-1080", initPos, CreateAiAircraftReq);
-	
+
 	handleSimConnectData(hSimConnect); // SIMCONNECT_RECV_ID_ASSIGNED_OBJECT_ID
+
+	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ALTITUDE_TOGGLE, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
+	// NO RETURN when success
 }
 void QtGuiApplication1::setAiData()
 {
@@ -70,8 +73,8 @@ void QtGuiApplication1::setAiData()
 	pos.Heading = 90.0;
 	pos.OnGround = 0;
 	pos.Airspeed = 200;
+	
 	HRESULT hr = SimConnect_SetDataOnSimObject(hSimConnect, AiFlightData, ui.createObjectId->text().toULong(), 0, 0, sizeof(pos), &pos);
-
 	// NO RETURN when success
 }
 void QtGuiApplication1::deleteOneAI()
@@ -92,6 +95,8 @@ bool QtGuiApplication1::initSimConnect()
 
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "Initial Position", NULL, SIMCONNECT_DATATYPE_INITPOSITION) : hr;
 	
+	hr = SimConnect_MapClientEventToSimEvent(hSimConnect, Mao_FREEZE_ALTITUDE_TOGGLE, "FREEZE_ALTITUDE_TOGGLE");
+
 	// NO RETURN when success
 	return S_OK == hr ? true : false;
 }
@@ -152,6 +157,10 @@ void QtGuiApplication1::_handleSimConnectData(SIMCONNECT_RECV* pData)
 			ui.createObjectId->setText(QString("%1").arg(pObjData->dwObjectID));
 			break;
 		}
+		case SIMCONNECT_RECV_ID_EXCEPTION:
+			// need to receive data for going here
+			ui.connectStatus->setEnabled(false);
+			break;
 		default:
 			int a = 0;
 			break;

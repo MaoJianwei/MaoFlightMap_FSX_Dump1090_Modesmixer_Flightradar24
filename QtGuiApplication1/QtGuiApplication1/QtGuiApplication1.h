@@ -35,6 +35,9 @@ private:
 };
 
 
+enum Mao_EVENT_ID {
+	Mao_FREEZE_ALTITUDE_TOGGLE
+};
 
 enum Mao_DATA_DEFINE_ID {
 	CommanderFlightData,
