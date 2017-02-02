@@ -29,12 +29,12 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{05ac4d72-223b-4a6e-b25e-6b0247788629}</UniqueIdentifier>
+      <UniqueIdentifier>{c1686d4e-e0c3-448a-934a-940dd0ce2234}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{65073dbc-f6d5-4124-8216-a6333814fc31}</UniqueIdentifier>
+      <UniqueIdentifier>{9112a65b-16d6-4589-ba06-e1cc85ba66b2}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -43,33 +43,36 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtGuiApplication1.cpp">
+    <ClCompile Include="REST_API_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_QtGuiApplication1.cpp">
+    <ClCompile Include="GeneratedFiles\qrc_REST_API_Test.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_QtGuiApplication1.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_REST_API_Test.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_QtGuiApplication1.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_REST_API_Test.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="QtGuiApplication1.h">
+    <CustomBuild Include="REST_API_Test.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="QtGuiApplication1.ui">
+    <CustomBuild Include="REST_API_Test.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="QtGuiApplication1.qrc">
+    <CustomBuild Include="REST_API_Test.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_QtGuiApplication1.h">
+    <ClInclude Include="GeneratedFiles\ui_REST_API_Test.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="REST_API_Test.rc" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="REST_API_Test">
+    </qresource>
+</RCC>
