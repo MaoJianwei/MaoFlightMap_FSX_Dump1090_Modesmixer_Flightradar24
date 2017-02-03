@@ -71,6 +71,9 @@
     <ClInclude Include="GeneratedFiles\ui_REST_API_Test.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaoFlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="REST_API_Test.rc" />
