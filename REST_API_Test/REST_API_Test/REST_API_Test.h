@@ -5,31 +5,32 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <vector>
-#include "MaoFlight.h"
 
-using namespace std;
+#include "MaoRealFlightThread.h"
+
 
 class REST_API_Test : public QMainWindow
 {
 	Q_OBJECT
 
+signals:
+	void SHUTDOWN();
+
 public:
 	REST_API_Test(QWidget *parent = Q_NULLPTR);
+	~REST_API_Test();
 
-	private slots:
-	void getModeSMixerData();
-	void loadModeSMixerData(QNetworkReply* reply);
+private slots:
+	//void getModeSMixerData();
+	//void loadModeSMixerData(QNetworkReply* reply);
 	void getDump1090Data();
-	void loadDump1090Data(QNetworkReply* reply);
-public:
+	void shutdownFSX();
 
 private:
 	Ui::REST_API_TestClass ui;
 
-	vector<MaoFlight*> realFlights;
+	MaoRealFlightThread realFlightThread;
 
-	int epochModeSMixer;
-	QNetworkAccessManager restModeSMixer;
-	QNetworkAccessManager restDump1090;
+	//int epochModeSMixer;
+	//QNetworkAccessManager restModeSMixer;
 };
