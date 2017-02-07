@@ -16,7 +16,7 @@ REST_API_Test::REST_API_Test(QWidget *parent)
 	//connect(&restModeSMixer, &QNetworkAccessManager::finished, this, &REST_API_Test::loadModeSMixerData);
 	connect(ui.GetDump1090Button, &QPushButton::clicked, this, &REST_API_Test::getDump1090Data);
 	//connect(&restDump1090, &QNetworkAccessManager::finished, this, &REST_API_Test::loadDump1090Data);
-
+	connect(&realFlightThread, &MaoRealFlightThread::debug, this, &REST_API_Test::debug);
 }
 
 REST_API_Test::~REST_API_Test()
@@ -40,6 +40,13 @@ void REST_API_Test::shutdownFSX()
 {
 	realFlightThread.setShutdown();
 	emit SHUTDOWN();
+}
+
+void REST_API_Test::debug(double text)
+{
+	ui.RestResult->setPlainText(ui.RestResult->toPlainText() + QString("%1,\n").arg(text));
+
+	//ui.RestResult->setPlainText(text);
 }
 
 //void REST_API_Test::getModeSMixerData()

@@ -8,13 +8,27 @@ MaoRealFlightThread::MaoRealFlightThread():isExit(false)
 	qRegisterMetaType<MaoFlight>("MaoFlight");
 	qRegisterMetaType<MaoFlightUpdate>("MaoFlightUpdate");
 
-	connect(&pullFlightTimer, &QTimer::timeout, this, &MaoRealFlightThread::getDump1090Data);
-	connect(&restDump1090, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadDump1090Data);
-	
-	pullFlightTimer.setInterval(1000);
-	pullFlightTimer.setSingleShot(true);
-	pullFlightTimer.moveToThread(this);
+	//connect(&timerDump1090, &QTimer::timeout, this, &MaoRealFlightThread::getDump1090Data);
+	//connect(&restDump1090, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadDump1090Data);
+	connect(&timerFlightRadar24, &QTimer::timeout, this, &MaoRealFlightThread::getFlightRadar24Data);
+	connect(&restFlightRadar24, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadFlightRadar24Data);
+	connect(&timerCheck, &QTimer::timeout, this, &MaoRealFlightThread::checkFlightTimeout);
+
+
+	timerCheck.setInterval(1000);
+	timerCheck.setSingleShot(false);
+	timerCheck.moveToThread(this);
+
+	timerDump1090.setInterval(1000);
+	timerDump1090.setSingleShot(true);
+	timerDump1090.moveToThread(this);
+
+	timerFlightRadar24.setInterval(1000);
+	timerFlightRadar24.setSingleShot(true);
+	timerFlightRadar24.moveToThread(this);
 	//restDump1090.moveToThread(this);
+
+	InitializeCriticalSection(&realFlightCS);
 }
 
 MaoRealFlightThread::~MaoRealFlightThread()
@@ -25,12 +39,16 @@ MaoRealFlightThread::~MaoRealFlightThread()
 		realFlights.remove(flight->getICAO());
 		delete flight;
 	}
+
+	DeleteCriticalSection(&realFlightCS);
 }
 
 void MaoRealFlightThread::setShutdown()
 {
 	isExit = true;
-	pullFlightTimer.stop();
+	timerCheck.stop();
+	//timerDump1090.stop();
+	timerFlightRadar24.stop();
 }
 
 void MaoRealFlightThread::SHUTDOWN()
@@ -57,13 +75,17 @@ void MaoRealFlightThread::loadDump1090Data(QNetworkReply* reply)
 	if (QJsonParseError::NoError != error.error)
 		throw 40110;//TODO
 
+
+	qint64 start = QDateTime::currentMSecsSinceEpoch();
+
+	EnterCriticalSection(&realFlightCS);
+
 	QVariantList jsonListOuter = json.toVariant().toList();
 	for (QVariant flight : jsonListOuter)
 	{
 		QVariantMap one = flight.toMap();
 		if (one["seen"].toInt() > 60) //|| 0 == one["validposition"].toInt())
 			continue;
-
 
 		QString ICAO = one["hex"].toString();
 		MaoFlight* newOne = realFlights.value(ICAO, 0);
@@ -123,16 +145,128 @@ void MaoRealFlightThread::loadDump1090Data(QNetworkReply* reply)
 		}
 	}
 
-
-	checkFlightTimeout();
-
+	LeaveCriticalSection(&realFlightCS);
 
 	if(false == isExit)
-		pullFlightTimer.start();
+		timerDump1090.start();
+	
+
+	qint64 over = QDateTime::currentMSecsSinceEpoch();
+	//emit debug(over - start);
+}
+
+void MaoRealFlightThread::getFlightRadar24Data()
+{
+	// 20.69,19.45,109.72,110.18
+	double latUp = 42.69, latDown = 19.45, lonLeft = 105.72, lonRight = 120.18;
+	QString urlFlightRadar24 = QString("http://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=%1,%2,%3,%4&faa=1&mlat=1&flarm=1&adsb=1&gnd=1&air=1&vehicles=0&estimated=1&maxage=7200&gliders=1&stats=0")
+		.arg(latUp).arg(latDown).arg(lonLeft).arg(lonRight);
+
+	QNetworkRequest req = QNetworkRequest(urlFlightRadar24);
+
+	restFlightRadar24.get(req);
+
+	QueryPerformanceFrequency(&freq);
+	QueryPerformanceCounter(&starT);
+}
+
+void MaoRealFlightThread::loadFlightRadar24Data(QNetworkReply* reply)
+{
+	QueryPerformanceCounter(&stop);
+	double result = double(stop.QuadPart - starT.QuadPart) / double(freq.QuadPart) * 1000000;//得出的单位为 微秒
+
+	QByteArray data = reply->readAll();
+
+
+	QJsonParseError error;
+	QJsonDocument json = QJsonDocument::fromJson(data, &error);
+	if (QJsonParseError::NoError != error.error)
+		throw 40110;//TODO
+
+
+	qint64 start = QDateTime::currentMSecsSinceEpoch();
+
+	EnterCriticalSection(&realFlightCS);
+
+	QVariantList jsonListOuter = json.toVariant().toList();
+	for (QVariant flight : jsonListOuter)
+	{
+		//QVariantMap one = flight.toMap();
+		//if (one["seen"].toInt() > 60) //|| 0 == one["validposition"].toInt())
+		//	continue;
+
+		//QString ICAO = one["hex"].toString();
+		//MaoFlight* newOne = realFlights.value(ICAO, 0);
+		//if (0 == newOne)
+		//{
+		//	newOne = new MaoFlight(ICAO);
+		//	realFlights.insert(ICAO, newOne);
+		//}
+
+		//newOne->seeAgain();
+
+
+		//QString callsign = one["flight"].toString().trimmed();
+		//if (newOne->getCallsign() != callsign)
+		//{
+		//	newOne->updateCallsign(callsign);
+		//	emit FSXupdate(CALLSIGN_UPDATE, newOne);
+		//}
+
+		//double alt = one["altitude"].toDouble();
+		//if (newOne->getAlt() != alt)
+		//{
+		//	newOne->updateAlt(alt);
+		//	emit FSXupdate(ALT_UPDATE, newOne);
+		//}
+
+		//double lat = one["lat"].toDouble();
+		//double lon = one["lon"].toDouble();
+		//double oldLat, oldLon;
+		//newOne->getPos(oldLat, oldLon);
+		//if (oldLat != lat || oldLon != lon)
+		//{
+		//	newOne->updatePos(lat, lon);
+		//	emit FSXupdate(POS_UPDATE, newOne);
+		//}
+
+		//int track = one["track"].toInt();
+		//if (newOne->getTrack() != track)
+		//{
+		//	newOne->updateTrack(track);
+		//	emit FSXupdate(TRACK_UPDATE, newOne);
+		//}
+
+
+		//int speed = one["speed"].toInt();
+		//if (newOne->getSpeed() != speed)
+		//{
+		//	newOne->updateSpeed(speed);
+		//	emit FSXupdate(SPEED_UPDATE, newOne);
+		//}
+
+		//double vertRate = one["vert_rate"].toDouble();
+		//if (newOne->getVertRate() != vertRate)
+		//{
+		//	newOne->updateVertRate(vertRate);
+		//	emit FSXupdate(VERT_RATE_UPDATE, newOne);
+		//}
+	}
+
+	LeaveCriticalSection(&realFlightCS);
+
+	if (false == isExit)
+		timerFlightRadar24.start();
+
+
+	qint64 over = QDateTime::currentMSecsSinceEpoch();
+	//emit debug(over - start);
+	emit debug(result);
 }
 
 void MaoRealFlightThread::checkFlightTimeout()
 {
+	EnterCriticalSection(&realFlightCS);
 	for (MaoFlight* f : realFlights.values())
 	{
 		if (QDateTime::currentSecsSinceEpoch() - f->getLastSeen() > 60)
@@ -141,4 +275,5 @@ void MaoRealFlightThread::checkFlightTimeout()
 			emit FSXtimeout(f);
 		}
 	}
+	LeaveCriticalSection(&realFlightCS);
 }
