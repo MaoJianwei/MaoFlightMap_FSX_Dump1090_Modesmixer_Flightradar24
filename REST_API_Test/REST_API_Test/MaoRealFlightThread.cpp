@@ -47,7 +47,7 @@ void MaoRealFlightThread::setShutdown()
 {
 	isExit = true;
 	timerCheck.stop();
-	//timerDump1090.stop();
+	timerDump1090.stop();
 	timerFlightRadar24.stop();
 }
 
@@ -84,7 +84,7 @@ void MaoRealFlightThread::loadDump1090Data(QNetworkReply* reply)
 	for (QVariant flight : jsonListOuter)
 	{
 		QVariantMap one = flight.toMap();
-		if (one["seen"].toInt() > 60) //|| 0 == one["validposition"].toInt())
+		if (one["seen"].toInt() > 60)
 			continue;
 
 		QString ICAO = one["hex"].toString();

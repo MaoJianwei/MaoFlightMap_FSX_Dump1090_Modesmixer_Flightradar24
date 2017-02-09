@@ -28,7 +28,7 @@ public slots:
 protected:
 	void run()
 	{
-		//timerDump1090.start();
+		timerDump1090.start();
 		timerFlightRadar24.start();
 		timerCheck.start();
 		exec();
