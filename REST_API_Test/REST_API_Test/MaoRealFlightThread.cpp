@@ -5,6 +5,10 @@
 
 MaoRealFlightThread::MaoRealFlightThread():isExit(false)
 {
+	updateFSXcenter(19.9963, 110.3254);
+
+
+
 	qRegisterMetaType<MaoFlight>("MaoFlight");
 	qRegisterMetaType<MaoFlightUpdate>("MaoFlightUpdate");
 
@@ -49,6 +53,14 @@ void MaoRealFlightThread::setShutdown()
 	timerCheck.stop();
 	timerDump1090.stop();
 	timerFlightRadar24.stop();
+}
+
+void MaoRealFlightThread::updateFSXcenter(double fsxLat, double fsxLon)
+{
+	latUp = fsxLat + 2 > 90 ? 90 : fsxLat + 2;
+	latDown = fsxLat - 2 < -90 ? -90 : fsxLat - 2;
+	lonLeft = fsxLon - 2 < -180 ? 360 + fsxLon - 2 : fsxLon - 2;
+	lonRight = fsxLon + 2 > 180 ? -360 + fsxLon + 2 : fsxLon + 2;
 }
 
 void MaoRealFlightThread::SHUTDOWN()

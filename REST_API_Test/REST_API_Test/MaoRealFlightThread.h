@@ -21,7 +21,10 @@ signals :
 public:
 	MaoRealFlightThread();
 	~MaoRealFlightThread();
+
 	void setShutdown();
+	void updateFSXcenter(double fsxLat, double fsxLon);
+
 public slots:
 	void SHUTDOWN();
 
@@ -35,23 +38,20 @@ protected:
 	}
 
 private slots:
+	void checkFlightTimeout();
 	void getDump1090Data();
 	void loadDump1090Data(QNetworkReply* reply);
 	void getFlightRadar24Data();
 	void loadFlightRadar24Data(QNetworkReply* reply);
 
 private:
-	void checkFlightTimeout();
-
-private:
 	LARGE_INTEGER freq, starT, stop;
-
-	double latUp = 20.444, latDown = 19.662, lonLeft = 109.349, lonRight = 111.00;
-
-
 
 	bool isExit;
 
+	double latUp, latDown, lonLeft, lonRight;
+
+private:
 	CRITICAL_SECTION realFlightCS;
 	QMap<QString, MaoFlight*> realFlights;
 
