@@ -26,7 +26,7 @@ private slots:
 	void getDump1090Data();
 	void shutdownFSX();
 
-	void debug(double);
+	void debug(qint64);
 
 private:
 	Ui::REST_API_TestClass ui;

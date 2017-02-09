@@ -16,7 +16,7 @@ class MaoRealFlightThread :	public QThread
 signals :
 	void FSXupdate(MaoFlightUpdate, MaoFlight*);
 	void FSXtimeout(MaoFlight*);
-	void debug(double);
+	void debug(qint64);
 
 public:
 	MaoRealFlightThread();
@@ -46,7 +46,7 @@ private:
 private:
 	LARGE_INTEGER freq, starT, stop;
 
-
+	double latUp = 20.444, latDown = 19.662, lonLeft = 109.349, lonRight = 111.00;
 
 
 

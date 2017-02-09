@@ -42,9 +42,9 @@ void REST_API_Test::shutdownFSX()
 	emit SHUTDOWN();
 }
 
-void REST_API_Test::debug(double text)
+void REST_API_Test::debug(qint64 text)
 {
-	ui.RestResult->setPlainText(ui.RestResult->toPlainText() + QString("%1,\n").arg(text));
+	ui.RestResult->setPlainText(ui.RestResult->toPlainText() + QString("%1, ").arg(text));
 
 	//ui.RestResult->setPlainText(text);
 }
