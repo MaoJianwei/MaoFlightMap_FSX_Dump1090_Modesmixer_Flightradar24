@@ -24,3 +24,7 @@
 # Executables
 *.out
 *.app
+
+# Mao
+*.db
+*.opendb
