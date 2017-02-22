@@ -12,10 +12,13 @@ MaoRealFlightThread::MaoRealFlightThread():isExit(false)
 	qRegisterMetaType<MaoFlight>("MaoFlight");
 	qRegisterMetaType<MaoFlightUpdate>("MaoFlightUpdate");
 
-	//connect(&timerDump1090, &QTimer::timeout, this, &MaoRealFlightThread::getDump1090Data);
-	//connect(&restDump1090, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadDump1090Data);
-	connect(&timerFlightRadar24, &QTimer::timeout, this, &MaoRealFlightThread::getFlightRadar24Data);
-	connect(&restFlightRadar24, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadFlightRadar24Data);
+
+	connect(&timerDump1090, &QTimer::timeout, this, &MaoRealFlightThread::getDump1090Data);
+	connect(&restDump1090, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadDump1090Data);
+
+	//connect(&timerFlightRadar24, &QTimer::timeout, this, &MaoRealFlightThread::getFlightRadar24Data);
+	//connect(&restFlightRadar24, &QNetworkAccessManager::finished, this, &MaoRealFlightThread::loadFlightRadar24Data);
+
 	connect(&timerCheck, &QTimer::timeout, this, &MaoRealFlightThread::checkFlightTimeout);
 
 
@@ -47,6 +50,14 @@ MaoRealFlightThread::~MaoRealFlightThread()
 	DeleteCriticalSection(&realFlightCS);
 }
 
+void MaoRealFlightThread::run()
+{
+	timerDump1090.start();
+	timerFlightRadar24.start();
+	timerCheck.start();
+	exec();
+}
+
 void MaoRealFlightThread::setShutdown()
 {
 	isExit = true;
@@ -55,22 +66,15 @@ void MaoRealFlightThread::setShutdown()
 	timerFlightRadar24.stop();
 }
 
-void MaoRealFlightThread::updateFSXcenter(double fsxLat, double fsxLon)
-{
-	latUp = fsxLat + 2 > 90 ? 90 : fsxLat + 2;
-	latDown = fsxLat - 2 < -90 ? -90 : fsxLat - 2;
-	lonLeft = fsxLon - 2 < -180 ? 360 + fsxLon - 2 : fsxLon - 2;
-	lonRight = fsxLon + 2 > 180 ? -360 + fsxLon + 2 : fsxLon + 2;
-}
-
 void MaoRealFlightThread::SHUTDOWN()
 {
 	exit(0);
 }
 
+
 void MaoRealFlightThread::getDump1090Data()
 {
-	QString urlDump1090 = QString("http://%1:%2/dump1090/data.json").arg("127.0.0.1").arg(8080);
+	QString urlDump1090 = QString("http://%1:%2/dump1090/data.json").arg("10.103.89.53").arg(8080);
 
 	QNetworkRequest req = QNetworkRequest(urlDump1090);
 
@@ -275,6 +279,15 @@ void MaoRealFlightThread::loadFlightRadar24Data(QNetworkReply* reply)
 	qint64 over = QDateTime::currentMSecsSinceEpoch();
 	emit debug(over - start);
 	//emit debug(result);
+}
+
+
+void MaoRealFlightThread::updateFSXcenter(double fsxLat, double fsxLon)
+{
+	latUp = fsxLat + 2 > 90 ? 90 : fsxLat + 2;
+	latDown = fsxLat - 2 < -90 ? -90 : fsxLat - 2;
+	lonLeft = fsxLon - 2 < -180 ? 360 + fsxLon - 2 : fsxLon - 2;
+	lonRight = fsxLon + 2 > 180 ? -360 + fsxLon + 2 : fsxLon + 2;
 }
 
 void MaoRealFlightThread::checkFlightTimeout()

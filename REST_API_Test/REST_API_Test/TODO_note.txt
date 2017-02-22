@@ -1,1 +1,5 @@
-ÇàµºÀ×´ï1185
+
+flightradar24 and dump1090 is OK
+
+
+todo: modesmixer2

@@ -94,6 +94,6 @@
     <ResourceCompile Include="REST_API_Test.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TODO笔记.txt" />
+    <Text Include="TODO_note.txt" />
   </ItemGroup>
 </Project>

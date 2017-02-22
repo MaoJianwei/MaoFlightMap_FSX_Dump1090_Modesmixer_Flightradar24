@@ -29,13 +29,7 @@ public slots:
 	void SHUTDOWN();
 
 protected:
-	void run()
-	{
-		timerDump1090.start();
-		timerFlightRadar24.start();
-		timerCheck.start();
-		exec();
-	}
+	void run();
 
 private slots:
 	void checkFlightTimeout();
