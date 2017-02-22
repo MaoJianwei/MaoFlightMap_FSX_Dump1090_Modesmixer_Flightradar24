@@ -244,6 +244,9 @@
   <ItemGroup>
     <ResourceCompile Include="REST_API_Test.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO笔记.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
