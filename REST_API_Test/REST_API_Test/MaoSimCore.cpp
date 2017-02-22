@@ -10,11 +10,46 @@ MaoSimCore::MaoSimCore()
 
 MaoSimCore::~MaoSimCore()
 {
+	//TODO - start and stop mechanism is delay for merge amend
+	// outside, must call Stop() first!!!
+	Stop();
+}
 
+void MaoSimCore::run() {
+
+	//TODO - start and stop mechanism is delay for merge amend
+	realFlights.clear();
+
+	if (setupConnect()) {
+		simEventloop.start();
+		exec();
+	}
+}
+
+void MaoSimCore::Stop() {
+
+	//TODO - start and stop mechanism is delay for merge amend
+
+	killConnect();
+
+	simEventloop.Stop();
+	simEventloop.wait();
 }
 
 
-void MaoSimCore::setupConnect()
+void MaoSimCore::FSXupdate(MaoFlightUpdate updateFlag, MaoFlight* flight)
+{
+
+}
+
+void MaoSimCore::FSXtimeout(MaoFlight* flight)
+{
+
+}
+
+// --- Mao FSX SDK ---
+
+bool MaoSimCore::setupConnect()
 {
 	if (SUCCEEDED(SimConnect_Open(&hSimConnect, "MaoFlightMap", NULL, 0, NULL, 0)))
 	{
@@ -22,10 +57,11 @@ void MaoSimCore::setupConnect()
 		if (initSimConnect())
 		{
 			//ui.commanderData->setPlainText("Connected to Flight Simulator!");
-			return;
+			return true;
 		}
 	}
 	//ui.commanderData->setPlainText("Fail to connect to Flight Simulator!");
+	return false;
 }
 
 bool MaoSimCore::initSimConnect()
@@ -53,6 +89,8 @@ void MaoSimCore::killConnect()
 
 	//ui.commanderData->setPlainText("Kill connection to Flight Simulator!");
 }
+
+
 void MaoSimCore::getCommanderData()
 {
 	HRESULT hr = SimConnect_RequestDataOnSimObjectType(
@@ -60,6 +98,7 @@ void MaoSimCore::getCommanderData()
 
 	// handleSimConnectData - SIMCONNECT_RECV_ID_SIMOBJECT_DATA_BYTYPE
 }
+
 void MaoSimCore::createOneAI()
 {
 	SIMCONNECT_DATA_INITPOSITION initPos;
@@ -80,6 +119,7 @@ void MaoSimCore::createOneAI()
 		Mao_FREEZE_ALTITUDE_TOGGLE, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
 	// NO RETURN when success 
 }
+
 void MaoSimCore::setAiData()
 {
 	SIMCONNECT_DATA_INITPOSITION pos;
@@ -96,6 +136,7 @@ void MaoSimCore::setAiData()
 		0, 0, sizeof(pos), &pos);
 	// NO RETURN when success
 }
+
 void MaoSimCore::deleteOneAI()
 {
 	HRESULT hr = SimConnect_AIRemoveObject(hSimConnect, 11, //ui.createObjectId->text().toULong(),

@@ -36,12 +36,21 @@ private:
 
 
 enum Mao_EVENT_ID {
-	Mao_FREEZE_ALTITUDE_TOGGLE
+	Mao_FREEZE_ALTITUDE_SET,
+	Mao_FREEZE_ATTITUDE_SET
 };
 
 enum Mao_DATA_DEFINE_ID {
 	CommanderFlightData,
-	AiFlightData
+	AiFlightData,
+
+	AircraftAltitudeData,
+	AircraftLatitudeData,
+	AircraftLongitudeData,
+	AircraftHeadingData,
+	AircraftOnGroundData,
+	AircraftAirSpeedData,
+	AircraftVerticalSpeedData,
 };
 
 enum Mao_DATA_REQUEST_ID {
@@ -60,3 +69,20 @@ struct CommanderFlightDataStruct
 	double  gpsLat;
 	double  gpsLon;
 };
+
+//struct AircraftAltitudeStruct {
+//	double Altitude;   // feet   
+//};
+//struct AircraftLocationStruct {
+//	double Latitude;   // degrees
+//	double Longitude;  // degrees
+//};
+//struct AircraftHeadingStruct {
+//	double Heading;    // degrees
+//};
+//struct AircraftOnGroundStruct {
+//	DWORD OnGround;   // 1=force to be on the ground
+//};
+//struct AircraftAirSpeedStruct {
+//	DWORD Airspeed;   // knots
+//};

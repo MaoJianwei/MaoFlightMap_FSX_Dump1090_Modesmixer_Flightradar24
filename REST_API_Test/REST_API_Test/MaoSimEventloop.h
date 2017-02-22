@@ -17,6 +17,8 @@ public:
 	MaoSimEventloop(HANDLE & hSimConnect, QMap<QString, DWORD> realFlights);
 	~MaoSimEventloop();
 
+	void Stop();
+
 private:
 	void run();
 

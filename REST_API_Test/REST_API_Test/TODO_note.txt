@@ -3,3 +3,5 @@ flightradar24 and dump1090 is OK
 
 
 todo: modesmixer2
+
+todo: test just set one attribute of AI plane

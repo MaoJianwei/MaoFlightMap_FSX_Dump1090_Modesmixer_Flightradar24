@@ -59,11 +59,17 @@ void QtGuiApplication1::createOneAI()
 
 	handleSimConnectData(hSimConnect); // SIMCONNECT_RECV_ID_ASSIGNED_OBJECT_ID
 
-	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ALTITUDE_TOGGLE, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
+	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ALTITUDE_SET, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
+	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ATTITUDE_SET, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
 	// NO RETURN when success
 }
 void QtGuiApplication1::setAiData()
 {
+	int data = 1;
+	HRESULT hr = SimConnect_SetDataOnSimObject(hSimConnect, AircraftOnGroundData, ui.createObjectId->text().toULong(), 0, 0, sizeof(data), &data);
+
+	return;
+
 	SIMCONNECT_DATA_INITPOSITION pos;
 	pos.Altitude = 3130.7014;
 	pos.Latitude = 19.9357;
@@ -74,7 +80,7 @@ void QtGuiApplication1::setAiData()
 	pos.OnGround = 0;
 	pos.Airspeed = 200;
 	
-	HRESULT hr = SimConnect_SetDataOnSimObject(hSimConnect, AiFlightData, ui.createObjectId->text().toULong(), 0, 0, sizeof(pos), &pos);
+	hr = SimConnect_SetDataOnSimObject(hSimConnect, AiFlightData, ui.createObjectId->text().toULong(), 0, 0, sizeof(pos), &pos);
 	// NO RETURN when success
 }
 void QtGuiApplication1::deleteOneAI()
@@ -94,8 +100,21 @@ bool QtGuiApplication1::initSimConnect()
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, CommanderFlightData, "GPS POSITION LON", "degrees") : hr;
 
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "Initial Position", NULL, SIMCONNECT_DATATYPE_INITPOSITION) : hr;
+
+
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftAltitudeData, "PLANE ALTITUDE", "feet") : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftLatitudeData, "PLANE LATITUDE", "degrees") : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftLongitudeData, "PLANE LONGITUDE", "degrees") : hr;
+	//hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "PLANE PITCH DEGREES", "Radians") : hr;
+	//hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "PLANE BANK DEGREES", "Radians") : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftHeadingData, "PLANE HEADING DEGREES MAGNETIC", "degrees", SIMCONNECT_DATATYPE_INT32) : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftAirSpeedData, "AIRSPEED INDICATED", "Knots", SIMCONNECT_DATATYPE_INT32) : hr;
+
+
 	
-	hr = SimConnect_MapClientEventToSimEvent(hSimConnect, Mao_FREEZE_ALTITUDE_TOGGLE, "FREEZE_ALTITUDE_TOGGLE");
+	hr = SimConnect_MapClientEventToSimEvent(hSimConnect, Mao_FREEZE_ALTITUDE_SET, "FREEZE_ALTITUDE_SET");
+	hr = SimConnect_MapClientEventToSimEvent(hSimConnect, Mao_FREEZE_ATTITUDE_SET, "FREEZE_ATTITUDE_SET");
+
 
 	// NO RETURN when success
 	return S_OK == hr ? true : false;
@@ -158,9 +177,13 @@ void QtGuiApplication1::_handleSimConnectData(SIMCONNECT_RECV* pData)
 			break;
 		}
 		case SIMCONNECT_RECV_ID_EXCEPTION:
+		{	
 			// need to receive data for going here
+			SIMCONNECT_RECV_EXCEPTION *pObjData = (SIMCONNECT_RECV_EXCEPTION*)pData;
+
 			ui.connectStatus->setEnabled(false);
 			break;
+		}
 		default:
 			int a = 0;
 			break;

@@ -2,28 +2,41 @@
 
 #include <QString>
 #include <QMap>
+#include <QThread>
 
 #include <windows.h>
 #include "SimConnect.h"
 
+#include "MaoFlight.h"
 #include "MaoSimConst.h"
 #include "MaoSimEventloop.h"
 
-class MaoSimCore {
-	
-	//Q_OBJECT
+class MaoSimCore : public QThread
+{
+	Q_OBJECT
 
 public:
 	MaoSimCore();
 	~MaoSimCore();
 
+	void Stop();
+
+public slots:
+	void FSXupdate(MaoFlightUpdate, MaoFlight*);
+	void FSXtimeout(MaoFlight*);
+
+private:
+	void run();
+
 private:
 	QMap<QString, DWORD> realFlights;
 	MaoSimEventloop simEventloop;
 
-	// --- FSX SDK ---
+
+
+	// --- Mao FSX SDK ---
 public:
-	void setupConnect();
+	bool setupConnect();
 	void killConnect();
 	void getCommanderData();
 	void createOneAI();

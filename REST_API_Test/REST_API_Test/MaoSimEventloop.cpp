@@ -12,11 +12,21 @@ MaoSimEventloop::MaoSimEventloop(HANDLE & hSimConnect, QMap<QString, DWORD> real
 }
 MaoSimEventloop::~MaoSimEventloop()
 {
-	dispatcherTrigger.stop();
+	//TODO - start and stop mechanism is delay for merge amend
+	// outside, must call Stop() first!!!
 }
 void MaoSimEventloop::run() {
+	//TODO - start and stop mechanism is delay for merge amend
+
 	dispatcherTrigger.start();
 	exec();
+}
+
+void MaoSimEventloop::Stop() {
+	//TODO - start and stop mechanism is delay for merge amend
+
+	exit(0);
+	dispatcherTrigger.stop();
 }
 
 void MaoSimEventloop::dispatchEvent() {
