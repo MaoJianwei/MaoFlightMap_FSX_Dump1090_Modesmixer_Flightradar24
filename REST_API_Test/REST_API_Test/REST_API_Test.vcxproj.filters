@@ -38,6 +38,12 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Header Files\Simconnect">
+      <UniqueIdentifier>{817e80c5-f76c-4499-b425-ab8e5ec9a9ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Simconnect">
+      <UniqueIdentifier>{66dfd487-3e05-469b-b3bc-082663c1adb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,6 +73,18 @@
     <ClCompile Include="MaoFlight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MaoSimEventloop.cpp">
+      <Filter>Source Files\Simconnect</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MaoSimEventloop.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="MaoSimCore.cpp">
+      <Filter>Source Files\Simconnect</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MaoSimEventloop.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="REST_API_Test.h">
@@ -81,6 +99,9 @@
     <CustomBuild Include="MaoRealFlightThread.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="MaoSimEventloop.h">
+      <Filter>Header Files\Simconnect</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_REST_API_Test.h">
@@ -88,6 +109,15 @@
     </ClInclude>
     <ClInclude Include="MaoFlight.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimConnect.h">
+      <Filter>Header Files\Simconnect</Filter>
+    </ClInclude>
+    <ClInclude Include="MaoSimConst.h">
+      <Filter>Header Files\Simconnect</Filter>
+    </ClInclude>
+    <ClInclude Include="MaoSimCore.h">
+      <Filter>Header Files\Simconnect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
