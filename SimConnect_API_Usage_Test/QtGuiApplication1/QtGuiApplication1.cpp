@@ -46,27 +46,31 @@ void QtGuiApplication1::getCommanderData()
 void QtGuiApplication1::createOneAI()
 {
 	SIMCONNECT_DATA_INITPOSITION initPos;
-	initPos.Altitude = 100.7014;
+	initPos.Altitude = 1000.7014;
 	initPos.Latitude = 19.9347;
 	initPos.Longitude = 110.4438;
 	initPos.Pitch = 0; // ¸©Ñö
 	initPos.Bank = 0; // ²àÇã
 	initPos.Heading = 90.0;
 	initPos.OnGround = 0;
-	initPos.Airspeed = 20;
+	initPos.Airspeed = 160;
 
 	HRESULT hr = SimConnect_AICreateNonATCAircraft(hSimConnect, "Boeing 737-800 Paint1", "M-1080", initPos, CreateAiAircraftReq);
 
 	handleSimConnectData(hSimConnect); // SIMCONNECT_RECV_ID_ASSIGNED_OBJECT_ID
 
-	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ALTITUDE_SET, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
+	//hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ALTITUDE_SET, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
 	hr = SimConnect_TransmitClientEvent(hSimConnect, ui.createObjectId->text().toULong(), Mao_FREEZE_ATTITUDE_SET, 1, SIMCONNECT_GROUP_PRIORITY_DEFAULT, SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
 	// NO RETURN when success
 }
 void QtGuiApplication1::setAiData()
 {
-	int data = 1;
-	HRESULT hr = SimConnect_SetDataOnSimObject(hSimConnect, AircraftOnGroundData, ui.createObjectId->text().toULong(), 0, 0, sizeof(data), &data);
+	double data = ui.setAlt->text().toDouble();
+	ui.setAlt->setText(QString("%1").arg(data + 0.1));
+	double data2 = ui.setLat->text().toDouble();
+	ui.setLat->setText(QString("%1").arg(data2 - 0.1));
+	HRESULT hr = SimConnect_SetDataOnSimObject(hSimConnect, AircraftBankData, ui.createObjectId->text().toULong(), 0, 0, sizeof(data), &data);
+	hr = SimConnect_SetDataOnSimObject(hSimConnect, AircraftPitchData, ui.createObjectId->text().toULong(), 0, 0, sizeof(data2), &data2);
 
 	return;
 
@@ -105,11 +109,12 @@ bool QtGuiApplication1::initSimConnect()
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftAltitudeData, "PLANE ALTITUDE", "feet") : hr;
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftLatitudeData, "PLANE LATITUDE", "degrees") : hr;
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftLongitudeData, "PLANE LONGITUDE", "degrees") : hr;
-	//hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "PLANE PITCH DEGREES", "Radians") : hr;
-	//hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AiFlightData, "PLANE BANK DEGREES", "Radians") : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftPitchData, "PLANE PITCH DEGREES", "degrees") : hr;
+	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftBankData, "PLANE BANK DEGREES", "degrees") : hr;
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftHeadingData, "PLANE HEADING DEGREES MAGNETIC", "degrees", SIMCONNECT_DATATYPE_INT32) : hr;
 	hr = S_OK == hr ? SimConnect_AddToDataDefinition(hSimConnect, AircraftAirSpeedData, "AIRSPEED INDICATED", "Knots", SIMCONNECT_DATATYPE_INT32) : hr;
-
+	//PLANE PITCH DEGREES
+	//PLANE BANK DEGREES
 
 	
 	hr = SimConnect_MapClientEventToSimEvent(hSimConnect, Mao_FREEZE_ALTITUDE_SET, "FREEZE_ALTITUDE_SET");

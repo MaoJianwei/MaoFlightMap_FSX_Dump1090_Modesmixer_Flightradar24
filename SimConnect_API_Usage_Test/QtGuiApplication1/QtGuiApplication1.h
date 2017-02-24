@@ -50,7 +50,8 @@ enum Mao_DATA_DEFINE_ID {
 	AircraftHeadingData,
 	AircraftOnGroundData,
 	AircraftAirSpeedData,
-	AircraftVerticalSpeedData,
+	AircraftPitchData,
+	AircraftBankData
 };
 
 enum Mao_DATA_REQUEST_ID {

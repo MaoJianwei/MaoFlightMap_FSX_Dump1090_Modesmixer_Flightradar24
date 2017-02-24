@@ -359,7 +359,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Alt：</string>
+     <string>Spd：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_11">
