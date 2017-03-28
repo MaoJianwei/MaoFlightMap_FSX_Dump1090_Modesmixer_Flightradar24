@@ -30,3 +30,5 @@ Dependency:　Qt 5.8.0 32bit
 Contact:　http://www.maojianwei.win/
 
 　　　　　MaoJianwei2020@gmail.com
+
+project review at 2017.03.28
