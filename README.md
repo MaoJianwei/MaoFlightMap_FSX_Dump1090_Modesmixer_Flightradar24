@@ -7,7 +7,7 @@
 
 软件下载：[Github下载点](https://raw.githubusercontent.com/MaoJianwei/Mao_Software_Station/master/%E5%A4%A7%E6%AF%9B%E8%88%AA%E7%8F%AD%E9%A3%9E%E8%A1%8C%E5%9C%B0%E5%9B%BEv1.5.zip)，[Mao博客下载点](https://www.maojianwei.com/MaoSoftware/)
 
-软件展示：[见页面下方](https://github.com/MaoJianwei/MaoFlightMap_FSX_Dump1090_Modesmixer_Flightradar24/blob/master/README.md#screenshot)
+软件展示：[见页面下方](https://github.com/MaoJianwei/MaoFlightMap_FSX_Dump1090_Modesmixer_Flightradar24#screenshot)
 
 软件源码：在 MaoFlightMap 文件夹，部分闭源，文件内容置空
 
