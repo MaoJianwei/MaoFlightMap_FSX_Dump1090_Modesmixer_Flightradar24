@@ -7,11 +7,14 @@
 
 软件下载：[Github下载点](https://raw.githubusercontent.com/MaoJianwei/Mao_Software_Station/master/%E5%A4%A7%E6%AF%9B%E8%88%AA%E7%8F%AD%E9%A3%9E%E8%A1%8C%E5%9C%B0%E5%9B%BEv1.5.zip)，[Mao博客下载点](https://www.maojianwei.com/MaoSoftware/)
 
-软件展示：见页面下方 - 源码部分闭源，文件内容置空
+软件展示：[见页面下方](https://github.com/MaoJianwei/MaoFlightMap_FSX_Dump1090_Modesmixer_Flightradar24/blob/master/README.md#screenshot)
+
+软件源码：在 MaoFlightMap 文件夹，部分闭源，文件内容置空
 
 #### Show flights in map (Online or Offline), show flights in FSX as AI aircrafts.
 #### Combine data of real world flights above your head, and simulation flights in which you play a role of pilot.
 
+(Some code files are not open-source, they are empty.)
 
 ## Real world flights
 
@@ -35,13 +38,13 @@ Some simulators are also compatible if they support FSUIPC (3 or 4) or SimConnec
 
 ## MaoFlightMap, your own flight map!
 
-Dependency:　Qt 5.8.0 32bit
+Dependency:　Qt 5.9.6 32bit
 
-Contact:　http://www.maojianwei.win/
+Contact:　http://www.maojianwei.com/
 
-　　　　　MaoJianwei2020@gmail.com
+　　　　　MaoJianwei2012@126.com - MaoJianwei2020@gmail.com
 
-project review at 2017.03.28
+project review at 2018.10.01
 
 ## Screenshot
 ![1](https://github.com/MaoJianwei/MaoFlightMap_FSX_Dump1090_Modesmixer_Flightradar24/raw/master/githubResource/1.jpg)
