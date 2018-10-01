@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/MaoFlightMap">
+        <file>bupt.jpg</file>
+        <file>icon.ico</file>
+        <file>MaoICAO.maoSerial</file>
+        <file>MaoTraceWeb.html</file>
+    </qresource>
+</RCC>

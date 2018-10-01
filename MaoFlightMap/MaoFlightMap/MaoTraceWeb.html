@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="http://www.maojianwei.com/softwareResource/MaoBingMapControl_english"></script>
+<script type="text/javascript">
+
+var map;
+var pt = [];
+var line;
+var pinTemp;
+var temp;
+
+
+function GetMap(){
+	map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), {
+	credentials: "Am6aSXWFpd4Yv7SwQuXGoZwxV8iqewnBXdjA0zyC9FL4qTbpgllodJY2gwb1ewhH",
+	center: new Microsoft.Maps.Location(36.2633,150.364),
+	showLocateMeButton: false,
+	showZoomButtons: false,
+	mapTypeId: Microsoft.Maps.MapTypeId.road,
+	zoom: 2 });
+// 注意！！！Bing 地图对中国区的访问有限制，国内zoom最小是3，国外是1。国内禁用了卫星图。
+// 区别于：http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0
+}
+
+function updatePos(lat, lon)
+{
+	map.entities.pop(pinTemp);
+	map.entities.pop(line);
+
+	temp = new Microsoft.Maps.Location(lat,lon)
+	pinTemp = new Microsoft.Maps.Pushpin(temp,{icon: 'http://www.soc.aero/image/icon_radar.png', width: 15, height: 15, anchor: new Microsoft.Maps.Point(7,7)});
+
+	pt.push(temp);
+	line = new Microsoft.Maps.Polyline(pt, {generalizable: true, strokeColor: "red", visible: true, strokeThickness: 3,});
+
+	map.entities.push(line);
+	map.entities.push(pinTemp);
+}
+</script>
+</head>
+<body style="margin:0px" onload="GetMap();">
+<div id='mapDiv' style="position:absolute; width:100%; height:100%;"></div>
+</body>
+</html>
